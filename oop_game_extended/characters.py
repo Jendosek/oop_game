@@ -2,87 +2,88 @@ from abc import ABC, abstractmethod
 
 class Character(ABC):
     def __init__(self, name, hp, damage):
-        self.__name = name
-        self.__hp = hp
-        self.__max_hp = hp
-        self.__damage = damage
-        self.__level = 1
-        self.__exp = 0
-        self.__gold = 0
-        self.__equipment = []
+        self._name = name
+        self._hp = hp
+        self._max_hp = hp
+        self._damage = damage
+        self._level = 1
+        self._exp = 0
+        self._gold = 0
+        self._equipment = []
 
-        def get_name(self):
-            return self.__name
+    def get_name(self):
+        return self._name
 
-        def get_hp(self):
-            return self.__hp
+    def get_hp(self):
+        return self._hp
 
-        def set_hp(self, hp):
-            if hp < 0:
-                hp = 0
-            if hp > self.__max_hp:
-                hp = self.__max_hp
-            self.__hp = hp
+    def set_hp(self, hp):
+        if hp < 0:
+            hp = 0
+        if hp > self._max_hp:
+            hp = self._max_hp
+        self._hp = hp
 
-        def get_damage(self):
-            return self.__damage
+    def get_damage(self):
+        return self._damage
 
-        def set_damage(self, damage):
-            self.__damage = damage
+    def set_damage(self, damage):
+        self._damage = damage
 
-        def get_level(self):
-            return self.__level
+    def get_level(self):
+        return self._level
 
-        def get_exp(self):
-            return self.__exp
+    def get_exp(self):
+        return self._exp
 
-        def get_gold(self):
-            return self.__gold
+    def get_gold(self):
+        return self._gold
 
-        def take_damage(self, damage):
-            self.set_hp(self.get_hp() - damage)
+    def take_damage(self, damage):
+        self.set_hp(self.get_hp() - damage)
 
-        def heal(self, amount):
-            self.set_hp(self.get_hp() + amount)
+    def heal(self, amount):
+        self.set_hp(self.get_hp() + amount)
 
-        def is_alive(self):
-            return self.get_hp() > 0
+    def is_alive(self):
+        return self.get_hp() > 0
 
-        def add_exp(self, amount):
-            self.__exp += amount
-            if self.__exp >= self.__level * 100:
-                self.__exp = 0
-                self.__level += 1
-                self.__max_hp += 10
-                self.__damage += 3
-                self.set_hp(self.__max_hp)
-                print(f"{self.__name} підвищив рівень до {self.__level}!")
+    def add_exp(self, amount):
+        self._exp += amount
+        if self._exp >= self._level * 100:
+            self._exp = 0
+            self._level += 1
+            self._max_hp += 10
+            self._damage += 3
+            self.set_hp(self._max_hp)
+            print(f"{self._name} підвищив рівень до {self._level}!")
 
-        def add_gold(self, amount):
-            self.__gold += amount
+    def add_gold(self, amount):
+        self._gold += amount
 
-        def spend_gold(self, amount):
-            if self.__gold >= amount:
-                self.__gold -= amount
-                return True
-            print("Не вистачає золота!")
-            return False
+    def spend_gold(self, amount):
+        if self._gold >= amount:
+            self._gold -= amount
+            return True
+        print("Не вистачає золота!")
+        return False
 
-        def equip_item(self, item):
-            self.__equipment.append(item)
-            item.apply(self)
-            print(f"{self.__name} екіпірував {item.get_name()}")
+    def equip_item(self, item):
+        self._equipment.append(item)
+        item.apply(self)
+        print(f"{self._name} екіпірував {item.get_name()}")
 
-        def show_info(self):
-            return f"{self.__name} | HP: {self.__hp}/{self.__max_hp} | DMG: {self.__damage} | LVL: {self.__level} | EXP: {self.__exp} | Gold: {self.__gold}"
+    def show_info(self):
+        return f"{self._name} | HP: {self._hp}/{self._max_hp} | DMG: {self._damage} | LVL: {self._level} | EXP: {self._exp} | Gold: {self._gold}"
 
-        @abstractmethod
-        def attack(self, target):
-            pass
+    @abstractmethod
+    def attack(self, target):
+        pass
 
-        @abstractmethod
-        def special_ability(self, target):
-            pass
+    @abstractmethod
+    def special_ability(self, target):
+        pass
+
 
 class Warrior(Character):
     def attack(self, target):
